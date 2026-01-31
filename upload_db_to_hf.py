@@ -14,7 +14,7 @@ This will create/update the dataset at:
 from huggingface_hub import HfApi, create_repo
 from pathlib import Path
 
-REPO_ID = "shuaiyy-ux/linkedin-jobs-sqlite"
+REPO_ID = "Fhujnfjfj/linkedin-jobs-sqlite"
 DB_FILE = "linkedin_jobs_cleaned.sqlite"
 
 def main():
