@@ -1,6 +1,8 @@
-# Large data files (use Hugging Face Hub instead)
-*.sqlite
-*.db
+# Large data files (use sample for demo)
+linkedin_jobs_cleaned.sqlite
+
+# Keep sample DB for demo
+!linkedin_jobs_sample.sqlite
 
 # Python
 __pycache__/

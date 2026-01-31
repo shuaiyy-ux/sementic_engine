@@ -15,48 +15,29 @@ st.set_page_config(page_title="LinkedIn Job Semantic Search", layout="wide")
 # ─────────────────────────────────────────────────────────────────────────────
 # Database download helper (for cloud deployment)
 # ─────────────────────────────────────────────────────────────────────────────
-# Primary: GitHub Release (simpler, no extra account needed)
-# Fallback: Hugging Face Hub
-DB_URLS = [
-    "https://github.com/shuaiyy-ux/sementic_engine/releases/download/v1.0/linkedin_jobs_cleaned.sqlite",
-    "https://huggingface.co/datasets/Fhujnfjfj/linkedin-jobs-sqlite/resolve/main/linkedin_jobs_cleaned.sqlite",
-]
-LOCAL_DB_NAME = "linkedin_jobs_cleaned.sqlite"
+# Primary: bundled sample DB (5000 jobs for demo)
+# Users can upload full DB for complete data
+LOCAL_DB_NAME = "linkedin_jobs_sample.sqlite"
+FULL_DB_NAME = "linkedin_jobs_cleaned.sqlite"
 
 
 @st.cache_resource
 def download_database():
-    """Download the database from GitHub Releases or HF if not present locally."""
-    import urllib.request
-    
-    # Check multiple possible locations
+    """Find bundled sample database or let user upload full DB."""
+    # Check multiple possible locations for bundled sample DB
     candidates = [
         Path(__file__).parent / LOCAL_DB_NAME,
+        Path(__file__).parent / FULL_DB_NAME,
         Path(__file__).parent.parent / LOCAL_DB_NAME,
         Path(LOCAL_DB_NAME),
-        Path("/tmp") / LOCAL_DB_NAME,  # For Streamlit Cloud
+        Path("/tmp") / LOCAL_DB_NAME,
     ]
     
     for cand in candidates:
         if cand.exists() and cand.stat().st_size > 1000:
             return str(cand.resolve())
     
-    # Download to /tmp for cloud environments
-    target = Path("/tmp") / LOCAL_DB_NAME
-    if not target.exists():
-        for url in DB_URLS:
-            st.info(f"📥 Downloading database... This may take a minute.")
-            try:
-                urllib.request.urlretrieve(url, str(target))
-                if target.exists() and target.stat().st_size > 1000:
-                    st.success("✅ Database downloaded successfully!")
-                    return str(target)
-            except Exception as e:
-                st.warning(f"Failed from {url.split('/')[2]}: {e}")
-                continue
-        st.error("❌ Could not download database from any source.")
-        return None
-    return str(target)
+    return None
 
 
 # ─────────────────────────────────────────────────────────────────────────────
