@@ -1,8 +1,18 @@
-# Large data files (use sample for demo)
+# ── Secrets — NEVER commit ────────────────────────────────────────────────────
+.env
+.streamlit/secrets.toml
+
+# ── Large data files ──────────────────────────────────────────────────────────
 linkedin_jobs_cleaned.sqlite
+data/linkedin_jobs_cleaned.sqlite
+data/linkedin_jobs_sample.sqlite
 
 # Keep sample DB for demo
 !linkedin_jobs_sample.sqlite
+
+# ── Chroma vector store (large binary index) ──────────────────────────────────
+storage/vectorstore/
+storage/manifest.sqlite
 
 # Python
 __pycache__/
